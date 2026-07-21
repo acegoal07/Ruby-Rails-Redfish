@@ -1,34 +1,44 @@
-<div class="flex justify-center pt-4 pb-4">
-  <div class="container bg-white/10 backdrop-blur-lg p-4 rounded rounded-lg min-w-24 max-w-200 text-center shadow-lg">
-    <%= form_with model: server, class: "flex flex-col gap-3" do |form| %>
-      <div class="flex border-t border-slate-500 pt-4 pb-2">
-        <%= form.label :File, "JSON File:", class: "text-slate-400 flex-1" %>
-        <%= form.file_field :file, class: "flex-2" %>
+<div class="flex justify-center px-4 py-8">
+  <div class="w-full max-w-3xl bg-white/10 backdrop-blur-xl border border-white/10 p-6 rounded-2xl shadow-xl">
+    <%= form_with model: server, class: "flex flex-col gap-5" do |form| %>
+      <div class="flex flex-col sm:flex-row sm:items-center gap-3 border-b border-slate-600/50 pb-4">
+        <%= form.label :file, "JSON File", class: "sm:w-1/3 text-slate-300 font-medium" %>
+        <%= form.file_field :file,
+            class: "w-full sm:w-2/3 text-slate-300 file:bg-indigo-600 file:text-white file:border-0 file:rounded-lg file:px-4 file:py-2 hover:file:bg-indigo-500 transition" %>
       </div>
-      <div class="flex border-t border-slate-500 pt-4 pb-2">
-        <%= form.label :slot, "Slot:", class: "text-slate-400 flex-1" %>
-        <%= form.number_field :slot, min: 1, class: 'border flex-2 border-slate-500 rounded rounded-lg bg-slate-700 p-1 transition hover:bg-slate-500 hover:border-slate-700 cursor-text', value: server.slot %>
+      <div class="flex flex-col sm:flex-row sm:items-center gap-3 border-b border-slate-600/50 pb-4">
+        <%= form.label :slot, "Slot", class: "sm:w-1/3 text-slate-300 font-medium" %>
+        <%= form.number_field :slot,
+            min: 1,
+            value: server.slot,
+            class: "w-full sm:w-2/3 border border-slate-500 rounded-xl bg-slate-800/80 p-2 text-slate-200 transition hover:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
       </div>
-      <div class="flex border-t border-slate-500 pt-4 pb-2">
-        <%= form.label :cabinet_id, "Rack:", class: "text-slate-400 flex-1" %>
-        <%= form.select :cabinet_id, 
-        options_from_collection_for_select(@cabinets, "id", "name", server.cabinet_id), 
-        {
-          include_blank: 'Select Rack'
-        },
-        class: 'text-center h-auto flex-2 border border-slate-500 rounded rounded-lg bg-slate-700 p-2 transition hover:bg-slate-500 hover:border-slate-700 cursor-pointer' %>
+      <div class="flex flex-col sm:flex-row sm:items-center gap-3 border-b border-slate-600/50 pb-4">
+        <%= form.label :cabinet_id, "Rack", class: "sm:w-1/3 text-slate-300 font-medium" %>
+        <%= form.select :cabinet_id,
+            options_from_collection_for_select(@cabinets, "id", "name", server.cabinet_id),
+            { include_blank: "Select Rack" },
+            class: "w-full sm:w-2/3 border border-slate-500 rounded-xl bg-slate-800/80 p-2 text-slate-200 transition hover:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer" %>
       </div>
-      <div class="flex border-t border-slate-500 pt-4 pb-2">
-        <%= form.label :u_position, "U Position:", class: "text-slate-400 flex-1" %>
-        <%= form.number_field :u_position, min: 1, class: 'flex-2 border border-slate-500 rounded rounded-lg bg-slate-700 p-1 transition hover:bg-slate-500 hover:border-slate-700 cursor-text', value: server.u_position %>
+      <div class="flex flex-col sm:flex-row sm:items-center gap-3 border-b border-slate-600/50 pb-4">
+        <%= form.label :u_position, "U Position", class: "sm:w-1/3 text-slate-300 font-medium" %>
+        <%= form.number_field :u_position,
+            min: 1,
+            value: server.u_position,
+            class: "w-full sm:w-2/3 border border-slate-500 rounded-xl bg-slate-800/80 p-2 text-slate-200 transition hover:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
       </div>
-      <div class="flex border-t border-slate-500 pt-4 pb-2">
-        <%= form.label :notes, "Notes:", class: "text-slate-400 flex-1" %>
-        <%= form.text_area :notes, class: 'flex-2 border border-slate-500 rounded rounded-lg bg-slate-700 p-1 transition hover:bg-slate-500 hover:border-slate-700', value: server.notes %>
+      <div class="flex flex-col sm:flex-row sm:items-start gap-3 border-b border-slate-600/50 pb-4">
+        <%= form.label :notes, "Notes", class: "sm:w-1/3 text-slate-300 font-medium" %>
+        <%= form.text_area :notes,
+            value: server.notes,
+            rows: 4,
+            class: "w-full sm:w-2/3 border border-slate-500 rounded-xl bg-slate-800/80 p-2 text-slate-200 transition hover:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
       </div>
-      <div class="pt-4 flex justify-center gap-4 w-full border-t border-slate-500 pt-2 pb-2">
-        <%= form.submit class: 'bg-emerald-700 rounded rounded-lg p-2 border border-emerald-500 transition hover:bg-emerald-500 hover:border-emerald-700 cursor-pointer' %>
-        <%= link_to "Cancel", :back, class: 'bg-slate-700 rounded rounded-lg p-2.75 border border-slate-500 transition hover:bg-slate-500 hover:border-slate-700 cursor-pointer' %>
+      <div class="flex justify-center gap-4 pt-4">
+        <%= form.submit class: "px-5 py-2 rounded-xl bg-emerald-700 border border-emerald-500 transition hover:bg-emerald-500 hover:-translate-y-0.5 cursor-pointer" %>
+        <%= link_to "Cancel",
+            :back,
+            class: "px-5 py-2 rounded-xl bg-slate-700 border border-slate-500 transition hover:bg-slate-600 hover:-translate-y-0.5 cursor-pointer" %>
       </div>
     <% end %>
   </div>
