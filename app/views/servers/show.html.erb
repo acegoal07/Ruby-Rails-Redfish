@@ -1,0 +1,128 @@
+<%# Header %>
+<header class="flex justify-center w-full">
+  <div class="container bg-white/10 backdrop-blur-lg p-4 rounded rounded-lg min-w-24 max-w-100 text-center shadow-lg">
+    <h1 class="text-indigo-500 text-5xl"><%= @server_data.system_name %></h1>
+    <p class="text-slate-400 p-2"><%= @server_data.system_uuid %></p>
+    <div class="flex flex-inline pt-2 pb-2">
+      <%= link_to "Back", servers_path, class: 'bg-slate-700 rounded rounded-lg p-2.75 border border-slate-500 transition hover:bg-slate-500 hover:border-slate-700 cursor-pointer' %>
+      <div class="flex justify-end w-full gap-4">
+        <%= link_to "Edit", edit_server_path(@server), class: 'bg-emerald-700 rounded rounded-lg p-2.75 border border-emerald-500 transition hover:bg-emerald-500 hover:border-emerald-700 cursor-pointer' %>
+        <%= button_to "Delete", @server, class: 'bg-red-700 rounded rounded-lg p-2.75 border border-red-500 transition hover:bg-red-500 hover:border-red-700 cursor-pointer', method: :delete, data: { turbo_confirm: "Are you sure?" } %>
+      </div>
+    </div>
+  </div>
+</header>
+<%# Pagination buttons%>
+<div class="m-auto min-w-24 max-w-100 ps-4 pe-4">
+  <div class="flex flex-inline w-full pb-2 pt-4">
+    <% if params[:entry] != '0'%>
+      <%= link_to server_path(@server, entry: params[:entry].nil? ? 1 : (params[:entry].to_i - 1) ), class: 'bg-slate-700 self-left rounded rounded-lg p-2.75 border border-slate-500 transition hover:bg-slate-500 hover:border-slate-700 cursor-pointer' do %>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
+        </svg>
+      <% end %>
+    <% end %>
+    <div class="flex justify-end w-full">
+      <% if @history_size > 0 && @history_size.to_s != params[:entry] %>
+        <%= link_to server_path(@server, entry: params[:entry].nil? ? 2 : (params[:entry].to_i + 1) ), class: 'bg-slate-700 self-left rounded rounded-lg p-2.75 border border-slate-500 transition hover:bg-slate-500 hover:border-slate-700 cursor-pointer' do %>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/>
+          </svg>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>
+<%# Display grid%>
+<div class="grid grid-cols-2 gap-4 lg:grid-cols-4 w-full pt-2 pb-4 p-2 sm:p-4">
+  <%# Gathered Info %>
+  <div class="flex justify-center w-full col-span-2">
+    <div class="container">
+      <div class="bg-white/10 backdrop-blur-lg p-4 rounded rounded-lg w-auto text-center shadow-lg h-auto sticky top-10">
+        <h2 class="text-indigo-500 text-2xl">System Info</h2>
+        <p class="text-slate-400 p-2">Last updated: <%= @server_data.updated_at%></p>
+        <% if !@server_data.id.zero? && params[:entry] == '0' %>
+          <div class="grid grid-cols-2 pb-2 gap-3  border-t border-slate-500 pt-2 pb-2">
+            <p class="text-right text-slate-400">Asset ID:</p>
+            <p class="text-left"><%= @server_data.id %></p>
+          </div>
+        <% end %>
+        <% if !@server_data.system_model.empty? %>
+          <div class="grid grid-cols-2 pb-2 gap-3  border-t border-slate-500 pt-2 pb-2">
+            <p class="text-right text-slate-400">System Model:</p>
+            <p class="text-left"><%= @server_data.system_model %></p>
+          </div>
+        <% end %>
+        <% if !@server_data.memory_total_gib.nil? %>
+          <div class="grid grid-cols-2 border-t border-slate-500 pt-2 pb-2 gap-3">
+            <p class="text-right text-slate-400">Total Memory:</p>
+            <p class="text-left"><%= @server_data.memory_total_gib %> GB</p>
+          </div>
+        <% end %>
+        <% if !@server_data.cpu_model.empty? %>
+          <div class="grid grid-cols-2 border-t border-slate-500 pt-2 pb-2 gap-3">
+            <p class="text-right text-slate-400">CPU Model:</p>
+            <p class="text-left"><%= @server_data.cpu_model %></p>
+          </div>
+        <% end %>
+        <% if !@server_data.cpu_count.nil? %>
+          <div class="grid grid-cols-2 border-t border-slate-500 pt-2 pb-2 gap-3">
+            <p class="text-right text-slate-400">CPU Count:</p>
+            <p class="text-left"><%= @server_data.cpu_count %></p>
+          </div>
+        <% end %>
+        <% if !@server_data.core_count.nil? %>
+          <div class="grid grid-cols-2 border-t border-slate-500 pt-2 pb-2 gap-3">
+            <p class="text-right text-slate-400">Core Count:</p>
+            <p class="text-left"><%= @server_data.core_count %></p>
+          </div>
+        <% end %>
+        <% if !@server_data.logical_core_count.nil? %>
+          <div class="grid grid-cols-2 border-t border-slate-500 pt-2 gap-3">
+            <p class="text-right text-slate-400">Logical Core Count:</p>
+            <p class="text-left"><%= @server_data.logical_core_count %></p>
+          </div>
+        <% end %>
+        <% if !@server_data.bios_version.empty? %>
+          <div class="grid grid-cols-2 border-t border-slate-500 pt-2 gap-3">
+            <p class="text-right text-slate-400">Bios Version:</p>
+            <p class="text-left">v<%= @server_data.bios_version %></p>
+          </div>
+        <% end %>
+        <% if !@cabinet.nil? %>
+          <div class="grid grid-cols-2 border-t border-slate-500 pt-2 gap-3">
+            <p class="text-right text-slate-400">Rack:</p>
+            <p class="text-left"><%= @cabinet.name %></p>
+          </div>
+        <% end %>
+        <% if !@server_data.slot.nil?&& !@server_data.slot.zero? %>
+          <div class="grid grid-cols-2 border-t border-slate-500 pt-2 gap-3">
+            <p class="text-right text-slate-400">Slot:</p>
+            <p class="text-left"><%= @server_data.slot %></p>
+          </div>
+        <% end %>
+        <% if !@server_data.u_position.nil? &&  !@server_data.u_position.empty? %>
+          <div class="grid grid-cols-2 border-t border-slate-500 pt-2 gap-3">
+            <p class="text-right text-slate-400">U Position:</p>
+            <p class="text-left"><%= @server_data.u_position %></p>
+          </div>
+        <% end %>
+        <% if !@server_data.notes.nil? && !@server_data.notes.empty? %>
+          <div class="grid grid-cols-2 border-t border-slate-500 pt-2 gap-3">
+            <p class="text-right text-slate-400">Notes:</p>
+            <p class="text-left"><%= @server_data.notes %></p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <%# Raw JSON %>
+  <div class="flex justify-center w-full col-span-2">
+    <div class="container bg-white/10 backdrop-blur-lg p-4 rounded rounded-lg min-w-24 max-w-200 w-auto text-center shadow-lg">
+      <h2 class="text-indigo-500 text-2xl pb-2">Raw JSON</h2>
+      <div class="overflow-scroll max-h-200 border border-slate-500 rounded-lg p-2">
+        <pre class="text-left text-wrap"><%= @json %></pre>
+      </div>
+    </div>
+  </div>
+</div>

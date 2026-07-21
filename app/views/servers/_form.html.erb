@@ -1,0 +1,35 @@
+<div class="flex justify-center pt-4 pb-4">
+  <div class="container bg-white/10 backdrop-blur-lg p-4 rounded rounded-lg min-w-24 max-w-200 text-center shadow-lg">
+    <%= form_with model: server, class: "flex flex-col gap-3" do |form| %>
+      <div class="flex border-t border-slate-500 pt-4 pb-2">
+        <%= form.label :File, "JSON File:", class: "text-slate-400 flex-1" %>
+        <%= form.file_field :file, class: "flex-2" %>
+      </div>
+      <div class="flex border-t border-slate-500 pt-4 pb-2">
+        <%= form.label :slot, "Slot:", class: "text-slate-400 flex-1" %>
+        <%= form.number_field :slot, min: 1, class: 'border flex-2 border-slate-500 rounded rounded-lg bg-slate-700 p-1 transition hover:bg-slate-500 hover:border-slate-700 cursor-text', value: server.slot %>
+      </div>
+      <div class="flex border-t border-slate-500 pt-4 pb-2">
+        <%= form.label :cabinet_id, "Rack:", class: "text-slate-400 flex-1" %>
+        <%= form.select :cabinet_id, 
+        options_from_collection_for_select(@cabinets, "id", "name", server.cabinet_id), 
+        {
+          include_blank: 'Select Rack'
+        },
+        class: 'text-center h-auto flex-2 border border-slate-500 rounded rounded-lg bg-slate-700 p-2 transition hover:bg-slate-500 hover:border-slate-700 cursor-pointer' %>
+      </div>
+      <div class="flex border-t border-slate-500 pt-4 pb-2">
+        <%= form.label :u_position, "U Position:", class: "text-slate-400 flex-1" %>
+        <%= form.number_field :u_position, min: 1, class: 'flex-2 border border-slate-500 rounded rounded-lg bg-slate-700 p-1 transition hover:bg-slate-500 hover:border-slate-700 cursor-text', value: server.u_position %>
+      </div>
+      <div class="flex border-t border-slate-500 pt-4 pb-2">
+        <%= form.label :notes, "Notes:", class: "text-slate-400 flex-1" %>
+        <%= form.text_area :notes, class: 'flex-2 border border-slate-500 rounded rounded-lg bg-slate-700 p-1 transition hover:bg-slate-500 hover:border-slate-700', value: server.notes %>
+      </div>
+      <div class="pt-4 flex justify-center gap-4 w-full border-t border-slate-500 pt-2 pb-2">
+        <%= form.submit class: 'bg-emerald-700 rounded rounded-lg p-2 border border-emerald-500 transition hover:bg-emerald-500 hover:border-emerald-700 cursor-pointer' %>
+        <%= link_to "Cancel", :back, class: 'bg-slate-700 rounded rounded-lg p-2.75 border border-slate-500 transition hover:bg-slate-500 hover:border-slate-700 cursor-pointer' %>
+      </div>
+    <% end %>
+  </div>
+</div>
