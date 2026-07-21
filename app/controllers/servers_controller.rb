@@ -35,7 +35,7 @@ class ServersController < ApplicationController
       got_history = history[entry.to_i - 1]
       @json = JSON.pretty_generate(got_history.json)
       @server_data = got_history
-      @cabinet = Cabinet.find(@server.cabinet_id)
+      @cabinet = got_history.cabinet_id.nil? ? nil : Cabinet.find(got_history.cabinet_id)
       end
     end
   end
