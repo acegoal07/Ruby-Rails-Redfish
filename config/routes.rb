@@ -3,20 +3,12 @@ Rails.application.routes.draw do
 
   resources :servers
   namespace :api do
-    get "servers", to: "servers#index"
-    get "servers/target", to: "servers#show"
-    post "servers", to: "servers#create"
-    patch "servers", to: "servers#update"
-    delete "servers", to: "servers#destroy"
+    resources :servers
   end
 
   resources :cabinets
   namespace :api do
-    get "cabinets", to: "cabinets#index"
-    get "cabinets/target", to: "cabinets#show"
-    post "cabinets", to: "cabinets#create"
-    patch "cabinets", to: "cabinets#update"
-    delete "cabinets", to: "cabinets#destroy"
+    resources :cabinets
   end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
